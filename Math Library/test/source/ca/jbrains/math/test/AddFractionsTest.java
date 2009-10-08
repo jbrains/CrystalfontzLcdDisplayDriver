@@ -1,51 +1,43 @@
 package ca.jbrains.math.test;
 
-import static org.junit.Assert.*;
 import junit.framework.Assert;
 
 import org.junit.Test;
 
 public class AddFractionsTest {
 	public static class Fraction {
-
-		private final int integerValue;
 		private final int numerator;
 		private final int denominator;
 
-		public Fraction(int integerValue, int numerator, int denominator) {
-			this.integerValue = integerValue;
+		public Fraction(int numerator, int denominator) {
 			this.numerator = numerator;
 			this.denominator = denominator;
 		}
+		
+		public static Fraction with(int numerator, int denominator) {
+			return new Fraction(numerator, denominator);
+		}
 
 		public static Fraction with(int integerValue) {
-			return new Fraction(integerValue, integerValue, 1);
+			return new Fraction(integerValue, 1);
 		}
 
 		public Fraction plus(Fraction that) {
-			return Fraction.with(this.integerValue + that.integerValue);
+			return Fraction.with(this.numerator + that.numerator);
 		}
 
 		public int intValue() {
-			return integerValue;
+			return numerator;
 		}
 
 		@Override
 		public boolean equals(Object other) {
 			if (other instanceof Fraction) {
 				Fraction that = (Fraction) other;
-				if (this.denominator == 1) {
-					return this.integerValue == that.integerValue;
-				} else {
-					return this.numerator == that.numerator
-							&& this.denominator == that.denominator;
-				}
+				return this.numerator == that.numerator
+						&& this.denominator == that.denominator;
 			}
 			return false;
-		}
-
-		public static Fraction with(int numerator, int denominator) {
-			return new Fraction(numerator, numerator, denominator);
 		}
 
 	}
