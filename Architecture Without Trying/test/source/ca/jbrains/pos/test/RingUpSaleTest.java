@@ -5,24 +5,41 @@ import org.junit.Test;
 
 public class RingUpSaleTest {
 	public static class Display {
+		private String text;
+
+		public void setText(String text) {
+			this.text = text;
+		}
+
 		public String getText() {
-			// TODO Auto-generated method stub
-			return "TL 795";
+			return text;
 		}
 	}
 
 	public static class Sale {
-		public void onBarcode(String barcode) {
-			// TODO Auto-generated method stub
+		private final Display display;
 
+		public Sale(Display display) {
+			this.display = display;
+		}
+
+		public void onBarcode(String barcode) {
+			display.setText("TL 795");
 		}
 	}
 
 	@Test
 	public void foundBarcode() throws Exception {
-		Sale sale = new Sale();
 		Display display = new Display();
+		Sale sale = new Sale(display);
 		sale.onBarcode("12345");
 		Assert.assertEquals("TL 795", display.getText());
+	}
+
+	public void foundAnotherBarcode() throws Exception {
+		Display display = new Display();
+		Sale sale = new Sale(display);
+		sale.onBarcode("23456");
+		Assert.assertEquals("TL 500", display.getText());
 	}
 }
