@@ -1,7 +1,6 @@
 package ca.jbrains.pos.test;
 
-import static org.junit.Assert.*;
-
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,8 +43,6 @@ public class RingUpSaleTest {
 		Sale sale = new Sale(display, new HashMap<String, String>() {
 			{
 				put("12345", "TL 795");
-				put("23456", "TL 500");
-				// 99999 is not here
 			}
 		});
 		sale.onBarcode("12345");
@@ -53,29 +50,9 @@ public class RingUpSaleTest {
 	}
 
 	@Test
-	public void foundAnotherBarcode() throws Exception {
-		Display display = new Display();
-		Sale sale = new Sale(display, new HashMap<String, String>() {
-			{
-				put("12345", "TL 795");
-				put("23456", "TL 500");
-				// 99999 is not here
-			}
-		});
-		sale.onBarcode("23456");
-		Assert.assertEquals("TL 500", display.getText());
-	}
-
-	@Test
 	public void didNotFindBarcode() throws Exception {
 		Display display = new Display();
-		Sale sale = new Sale(display, new HashMap<String, String>() {
-			{
-				put("12345", "TL 795");
-				put("23456", "TL 500");
-				// 99999 is not here
-			}
-		});
+		Sale sale = new Sale(display, Collections.EMPTY_MAP);
 		sale.onBarcode("99999");
 		Assert.assertEquals("No product with barcode 99999", display.getText());
 	}
