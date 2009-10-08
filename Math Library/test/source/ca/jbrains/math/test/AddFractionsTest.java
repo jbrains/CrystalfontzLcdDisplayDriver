@@ -24,7 +24,14 @@ public class AddFractionsTest {
 		}
 
 		public Fraction plus(Fraction that) {
-			return Fraction.with(this.numerator + that.numerator, this.denominator);
+			if (this.denominator == that.denominator) {
+				return Fraction.with(this.numerator + that.numerator,
+						this.denominator);
+			} else {
+				return Fraction.with(this.numerator * that.denominator
+						+ this.denominator * that.numerator, this.denominator
+						* that.denominator);
+			}
 		}
 
 		public int intValue() {
@@ -76,5 +83,11 @@ public class AddFractionsTest {
 	public void sameDenominatorButNotIntegers() throws Exception {
 		Fraction sum = Fraction.with(1, 5).plus(Fraction.with(2, 5));
 		Assert.assertEquals(Fraction.with(3, 5), sum);
+	}
+
+	@Test
+	public void differentDenominators() throws Exception {
+		Assert.assertEquals(Fraction.with(13, 21), Fraction.with(1, 3).plus(
+				Fraction.with(2, 7)));
 	}
 }
