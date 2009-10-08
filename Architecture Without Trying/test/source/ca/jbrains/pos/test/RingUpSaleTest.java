@@ -39,7 +39,7 @@ public class RingUpSaleTest {
 			if (pricesByBarcode.containsKey(barcode))
 				display.setText(pricesByBarcode.get(barcode));
 			else
-				display.setText("No product with barcode 99999");
+				display.setText("No product with barcode " + barcode);
 		}
 	}
 
