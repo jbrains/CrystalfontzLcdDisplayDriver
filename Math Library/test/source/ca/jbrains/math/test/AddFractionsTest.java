@@ -47,13 +47,18 @@ public class AddFractionsTest {
 			}
 			return false;
 		}
+		
+		
+		@Override
+		public int hashCode() {
+			return numerator * denominator;
+		}
 
 		@Override
 		public String toString() {
 			return String.valueOf(numerator) + "/"
 					+ String.valueOf(denominator);
 		}
-
 	}
 
 	@Test
