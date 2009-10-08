@@ -1,10 +1,6 @@
 package ca.jbrains.math.test;
 
 import junitx.extensions.EqualsHashCodeTestCase;
-
-import org.junit.Assert;
-import org.junit.Test;
-
 import ca.jbrains.math.test.AddFractionsTest.Fraction;
 
 public class FractionEqualsTest extends EqualsHashCodeTestCase {

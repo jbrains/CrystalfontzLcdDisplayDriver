@@ -48,12 +48,12 @@ public class AddFractionsTest {
 			return false;
 		}
 		
-		
+
 		@Override
 		public int hashCode() {
-			return numerator * denominator;
+			return 0;
 		}
-
+		
 		@Override
 		public String toString() {
 			return String.valueOf(numerator) + "/"
