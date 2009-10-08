@@ -1,5 +1,6 @@
 package ca.jbrains.math.test;
 
+import static org.junit.Assert.*;
 import junit.framework.Assert;
 
 import org.junit.Test;
@@ -13,7 +14,7 @@ public class AddFractionsTest {
 			this.numerator = numerator;
 			this.denominator = denominator;
 		}
-		
+
 		public static Fraction with(int numerator, int denominator) {
 			return new Fraction(numerator, denominator);
 		}
@@ -23,7 +24,7 @@ public class AddFractionsTest {
 		}
 
 		public Fraction plus(Fraction that) {
-			return Fraction.with(this.numerator + that.numerator);
+			return Fraction.with(this.numerator + that.numerator, this.denominator);
 		}
 
 		public int intValue() {
@@ -38,6 +39,12 @@ public class AddFractionsTest {
 						&& this.denominator == that.denominator;
 			}
 			return false;
+		}
+
+		@Override
+		public String toString() {
+			return String.valueOf(numerator) + "/"
+					+ String.valueOf(denominator);
 		}
 
 	}
@@ -63,5 +70,11 @@ public class AddFractionsTest {
 		Fraction five = Fraction.with(5);
 		Fraction sum = three.plus(five);
 		Assert.assertEquals(8, sum.intValue());
+	}
+
+	@Test
+	public void sameDenominatorButNotIntegers() throws Exception {
+		Fraction sum = Fraction.with(1, 5).plus(Fraction.with(2, 5));
+		Assert.assertEquals(Fraction.with(3, 5), sum);
 	}
 }
