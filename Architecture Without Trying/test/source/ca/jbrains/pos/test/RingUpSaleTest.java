@@ -1,5 +1,7 @@
 package ca.jbrains.pos.test;
 
+import static org.junit.Assert.*;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,7 +36,10 @@ public class RingUpSaleTest {
 				}
 			};
 
-			display.setText(pricesByBarcode.get(barcode));
+			if (pricesByBarcode.containsKey(barcode))
+				display.setText(pricesByBarcode.get(barcode));
+			else
+				display.setText("No product with barcode 99999");
 		}
 	}
 
@@ -52,5 +57,13 @@ public class RingUpSaleTest {
 		Sale sale = new Sale(display);
 		sale.onBarcode("23456");
 		Assert.assertEquals("TL 500", display.getText());
+	}
+
+	@Test
+	public void didNotFindBarcode() throws Exception {
+		Display display = new Display();
+		Sale sale = new Sale(display);
+		sale.onBarcode("99999");
+		Assert.assertEquals("No product with barcode 99999", display.getText());
 	}
 }
