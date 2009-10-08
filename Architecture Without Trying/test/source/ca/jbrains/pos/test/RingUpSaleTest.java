@@ -24,7 +24,10 @@ public class RingUpSaleTest {
 		}
 
 		public void onBarcode(String barcode) {
-			display.setText("TL 795");
+			if ("12345".equals(barcode))
+				display.setText("TL 795");
+			else
+				display.setText("TL 500");
 		}
 	}
 
@@ -36,6 +39,7 @@ public class RingUpSaleTest {
 		Assert.assertEquals("TL 795", display.getText());
 	}
 
+	@Test
 	public void foundAnotherBarcode() throws Exception {
 		Display display = new Display();
 		Sale sale = new Sale(display);
