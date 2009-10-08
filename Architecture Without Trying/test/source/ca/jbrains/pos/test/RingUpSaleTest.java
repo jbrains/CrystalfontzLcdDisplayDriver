@@ -1,5 +1,8 @@
 package ca.jbrains.pos.test;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -24,10 +27,14 @@ public class RingUpSaleTest {
 		}
 
 		public void onBarcode(String barcode) {
-			if ("12345".equals(barcode))
-				display.setText("TL 795");
-			else
-				display.setText("TL 500");
+			Map<String, String> pricesByBarcode = new HashMap<String, String>() {
+				{
+					put("12345", "TL 795");
+					put("23456", "TL 500");
+				}
+			};
+
+			display.setText(pricesByBarcode.get(barcode));
 		}
 	}
 
