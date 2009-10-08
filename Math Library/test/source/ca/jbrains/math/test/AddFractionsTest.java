@@ -7,9 +7,14 @@ import org.junit.Test;
 public class AddFractionsTest {
 	public static class Fraction {
 
+		private final int integerValue;
+
+		public Fraction(int integerValue) {
+			this.integerValue = integerValue;
+		}
+
 		public static Fraction with(int integerValue) {
-			// TODO Auto-generated method stub
-			return new Fraction();
+			return new Fraction(integerValue);
 		}
 
 		public Fraction plus(Fraction zero) {
@@ -18,8 +23,7 @@ public class AddFractionsTest {
 		}
 
 		public int intValue() {
-			// TODO Auto-generated method stub
-			return 0;
+			return integerValue;
 		}
 
 	}
