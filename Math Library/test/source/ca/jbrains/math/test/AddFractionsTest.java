@@ -25,6 +25,15 @@ public class AddFractionsTest {
 		public int intValue() {
 			return integerValue;
 		}
+		
+		@Override
+		public boolean equals(Object other) {
+			if (other instanceof Fraction) {
+				Fraction that = (Fraction) other;
+				return this.integerValue == that.integerValue;
+			}
+			return false;
+		}
 
 	}
 
