@@ -90,4 +90,10 @@ public class AddFractionsTest {
 		Assert.assertEquals(Fraction.with(13, 21), Fraction.with(1, 3).plus(
 				Fraction.with(2, 7)));
 	}
+
+	@Test
+	public void resultIsImproperFraction() throws Exception {
+		assertEquals(Fraction.with(4, 3), Fraction.with(2, 3).plus(
+				Fraction.with(2, 3)));
+	}
 }
