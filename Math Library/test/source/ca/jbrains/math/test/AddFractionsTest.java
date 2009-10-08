@@ -18,9 +18,8 @@ public class AddFractionsTest {
 			return new Fraction(integerValue);
 		}
 
-		public Fraction plus(Fraction zero) {
-			// TODO Auto-generated method stub
-			return this;
+		public Fraction plus(Fraction that) {
+			return Fraction.with(this.integerValue + that.integerValue);
 		}
 
 		public int intValue() {
@@ -42,5 +41,13 @@ public class AddFractionsTest {
 		Fraction zero = Fraction.with(0);
 		Fraction sum = three.plus(zero);
 		Assert.assertEquals(3, sum.intValue());
+	}
+	
+	@Test
+	public void threePlusFive() throws Exception {
+		Fraction three = Fraction.with(3);
+		Fraction five = Fraction.with(5);
+		Fraction sum = three.plus(five);
+		Assert.assertEquals(8, sum.intValue());
 	}
 }
