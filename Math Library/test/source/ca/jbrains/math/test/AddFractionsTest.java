@@ -9,13 +9,17 @@ public class AddFractionsTest {
 	public static class Fraction {
 
 		private final int integerValue;
+		private final int numerator;
+		private final int denominator;
 
-		public Fraction(int integerValue) {
+		public Fraction(int integerValue, int numerator, int denominator) {
 			this.integerValue = integerValue;
+			this.numerator = numerator;
+			this.denominator = denominator;
 		}
 
 		public static Fraction with(int integerValue) {
-			return new Fraction(integerValue);
+			return new Fraction(integerValue, integerValue, 1);
 		}
 
 		public Fraction plus(Fraction that) {
@@ -25,14 +29,23 @@ public class AddFractionsTest {
 		public int intValue() {
 			return integerValue;
 		}
-		
+
 		@Override
 		public boolean equals(Object other) {
 			if (other instanceof Fraction) {
 				Fraction that = (Fraction) other;
-				return this.integerValue == that.integerValue;
+				if (this.denominator == 1) {
+					return this.integerValue == that.integerValue;
+				} else {
+					return this.numerator == that.numerator
+							&& this.denominator == that.denominator;
+				}
 			}
 			return false;
+		}
+
+		public static Fraction with(int numerator, int denominator) {
+			return new Fraction(numerator, numerator, denominator);
 		}
 
 	}
@@ -43,7 +56,7 @@ public class AddFractionsTest {
 		Fraction sum = zero.plus(zero);
 		Assert.assertEquals(0, sum.intValue());
 	}
-	
+
 	@Test
 	public void threePlusZero() throws Exception {
 		Fraction three = Fraction.with(3);
@@ -51,7 +64,7 @@ public class AddFractionsTest {
 		Fraction sum = three.plus(zero);
 		Assert.assertEquals(3, sum.intValue());
 	}
-	
+
 	@Test
 	public void threePlusFive() throws Exception {
 		Fraction three = Fraction.with(3);

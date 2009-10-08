@@ -18,4 +18,14 @@ public class FractionEqualsTest {
 	public void integersAreNotEqual() throws Exception {
 		Assert.assertFalse(Fraction.with(2).equals(Fraction.with(12)));
 	}
+
+	@Test
+	public void fractionsAreEqual() throws Exception {
+		Assert.assertEquals(Fraction.with(2, 5), Fraction.with(2, 5));
+	}
+
+	@Test
+	public void fractionsAreNotEqual() throws Exception {
+		Assert.assertFalse(Fraction.with(2, 5).equals(Fraction.with(2, 3)));
+	}
 }
