@@ -23,19 +23,14 @@ public class RingUpSaleTest {
 
 	public static class Sale {
 		private final Display display;
+		private final Map<String, String> pricesByBarcode;
 
-		public Sale(Display display) {
+		public Sale(Display display, Map<String, String> pricesByBarcode) {
 			this.display = display;
+			this.pricesByBarcode = pricesByBarcode;
 		}
 
 		public void onBarcode(String barcode) {
-			Map<String, String> pricesByBarcode = new HashMap<String, String>() {
-				{
-					put("12345", "TL 795");
-					put("23456", "TL 500");
-				}
-			};
-
 			if (pricesByBarcode.containsKey(barcode))
 				display.setText(pricesByBarcode.get(barcode));
 			else
@@ -46,7 +41,13 @@ public class RingUpSaleTest {
 	@Test
 	public void foundBarcode() throws Exception {
 		Display display = new Display();
-		Sale sale = new Sale(display);
+		Sale sale = new Sale(display, new HashMap<String, String>() {
+			{
+				put("12345", "TL 795");
+				put("23456", "TL 500");
+				// 99999 is not here
+			}
+		});
 		sale.onBarcode("12345");
 		Assert.assertEquals("TL 795", display.getText());
 	}
@@ -54,7 +55,13 @@ public class RingUpSaleTest {
 	@Test
 	public void foundAnotherBarcode() throws Exception {
 		Display display = new Display();
-		Sale sale = new Sale(display);
+		Sale sale = new Sale(display, new HashMap<String, String>() {
+			{
+				put("12345", "TL 795");
+				put("23456", "TL 500");
+				// 99999 is not here
+			}
+		});
 		sale.onBarcode("23456");
 		Assert.assertEquals("TL 500", display.getText());
 	}
@@ -62,7 +69,13 @@ public class RingUpSaleTest {
 	@Test
 	public void didNotFindBarcode() throws Exception {
 		Display display = new Display();
-		Sale sale = new Sale(display);
+		Sale sale = new Sale(display, new HashMap<String, String>() {
+			{
+				put("12345", "TL 795");
+				put("23456", "TL 500");
+				// 99999 is not here
+			}
+		});
 		sale.onBarcode("99999");
 		Assert.assertEquals("No product with barcode 99999", display.getText());
 	}
