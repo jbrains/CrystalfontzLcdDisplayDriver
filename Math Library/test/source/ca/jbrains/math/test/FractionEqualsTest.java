@@ -22,10 +22,12 @@ public class FractionEqualsTest {
 	@Test
 	public void fractionsAreEqual() throws Exception {
 		Assert.assertEquals(Fraction.with(2, 5), Fraction.with(2, 5));
+		Assert.assertEquals(Fraction.with(1, 6), Fraction.with(1, 6));
 	}
 
 	@Test
 	public void fractionsAreNotEqual() throws Exception {
 		Assert.assertFalse(Fraction.with(2, 5).equals(Fraction.with(2, 3)));
+		Assert.assertFalse(Fraction.with(12, 5).equals(Fraction.with(2, 3)));
 	}
 }
