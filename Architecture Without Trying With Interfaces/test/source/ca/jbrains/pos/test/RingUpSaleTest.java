@@ -20,7 +20,11 @@ public class RingUpSaleTest extends MockObjectTestCase {
 		}
 
 		public void onBarcode(String barcode) {
-			display.displayPrice(catalog.findPrice(barcode));
+			Price price = catalog.findPrice(barcode);
+			if (price == null)
+				display.displayNoPriceMessage(barcode);
+			else
+				display.displayPrice(price);
 		}
 	}
 
@@ -30,6 +34,8 @@ public class RingUpSaleTest extends MockObjectTestCase {
 
 	public interface Display {
 		void displayPrice(Price price);
+
+		void displayNoPriceMessage(String barcode);
 	}
 
 	public void testFoundBarcode() throws Exception {
@@ -46,5 +52,22 @@ public class RingUpSaleTest extends MockObjectTestCase {
 		Display display = (Display) mockDisplay.proxy();
 
 		new Sale(catalog, display).onBarcode("irrelevant barcode");
+	}
+
+	public void testNotFoundBarcode() throws Exception {
+		String barcode = "12345";
+
+		Mock mockCatalog = mock(Catalog.class);
+		mockCatalog.stubs().method("findPrice").with(ANYTHING).will(
+				returnValue(null));
+		Catalog catalog = (Catalog) mockCatalog.proxy();
+
+		Mock mockDisplay = mock(Display.class);
+		mockDisplay.expects(once()).method("displayNoPriceMessage").with(
+				eq(barcode));
+		Display display = (Display) mockDisplay.proxy();
+
+		new Sale(catalog, display).onBarcode(barcode);
+
 	}
 }
