@@ -2,8 +2,15 @@ package ca.jbrains.pos.test;
 
 import org.jmock.Mock;
 import org.jmock.MockObjectTestCase;
+import org.jmock.core.stub.ReturnStub;
 
 public class RingUpSaleTest extends MockObjectTestCase {
+	private Mock mockCatalog;
+	private Catalog catalog;
+	private Mock mockDisplay;
+	private Display display;
+	private Sale sale;
+
 	public static class Price {
 		public static Price lira(int lira) {
 			return new Price();
@@ -20,11 +27,16 @@ public class RingUpSaleTest extends MockObjectTestCase {
 		}
 
 		public void onBarcode(String barcode) {
-			Price price = catalog.findPrice(barcode);
-			if (price == null)
-				display.displayNoPriceMessage(barcode);
-			else
-				display.displayPrice(price);
+			try {
+				Price price = catalog.findPrice(barcode);
+				if (price == null)
+					display.displayNoPriceMessage(barcode);
+				else
+					display.displayPrice(price);
+			} catch (RuntimeException rethrown) {
+				display.displayGeneralErrorMessage();
+				throw rethrown;
+			}
 		}
 	}
 
@@ -36,38 +48,69 @@ public class RingUpSaleTest extends MockObjectTestCase {
 		void displayPrice(Price price);
 
 		void displayNoPriceMessage(String barcode);
+		
+		void displayGeneralErrorMessage();
+	}
+
+	@Override
+	protected void setUp() throws Exception {
+		mockCatalog = mock(Catalog.class);
+		catalog = (Catalog) mockCatalog.proxy();
+
+		mockDisplay = mock(Display.class);
+		display = (Display) mockDisplay.proxy();
+
+		sale = new Sale(catalog, display);
 	}
 
 	public void testFoundBarcode() throws Exception {
 		int irrelevantAmount = -1;
 
-		Mock mockCatalog = mock(Catalog.class);
 		Price price = Price.lira(irrelevantAmount);
 		mockCatalog.stubs().method("findPrice").with(ANYTHING).will(
 				returnValue(price));
-		Catalog catalog = (Catalog) mockCatalog.proxy();
 
-		Mock mockDisplay = mock(Display.class);
 		mockDisplay.expects(once()).method("displayPrice").with(same(price));
-		Display display = (Display) mockDisplay.proxy();
 
-		new Sale(catalog, display).onBarcode("irrelevant barcode");
+		sale.onBarcode("irrelevant barcode");
 	}
 
 	public void testNotFoundBarcode() throws Exception {
 		String barcode = "12345";
 
-		Mock mockCatalog = mock(Catalog.class);
 		mockCatalog.stubs().method("findPrice").with(ANYTHING).will(
 				returnValue(null));
-		Catalog catalog = (Catalog) mockCatalog.proxy();
 
-		Mock mockDisplay = mock(Display.class);
 		mockDisplay.expects(once()).method("displayNoPriceMessage").with(
 				eq(barcode));
-		Display display = (Display) mockDisplay.proxy();
 
-		new Sale(catalog, display).onBarcode(barcode);
+		sale.onBarcode(barcode);
+	}
 
+	public void testAskCatalogToLookUpCorrectBarcode() throws Exception {
+		String barcode = "12345";
+
+		mockCatalog.expects(once()).method("findPrice").with(eq(barcode)).will(
+				returnValue(Price.lira(-762)));
+
+		mockDisplay.setDefaultStub(new ReturnStub(null));
+
+		sale.onBarcode(barcode);
+	}
+
+	public void testWhatIfTheCatalogBlowsUp() throws Exception {
+		RuntimeException thrown = new RuntimeException("KABOOM!");
+		mockCatalog.stubs().method("findPrice").with(ANYTHING).will(
+				throwException(thrown));
+
+		mockDisplay.expects(once()).method("displayGeneralErrorMessage").withNoArguments();
+		
+		try {
+			sale.onBarcode("irrelevant barcode");
+			fail("You didn't rethrow the exception?!");
+		} catch (RuntimeException expected) {
+			assertSame(thrown, expected);
+		}
+		
 	}
 }
