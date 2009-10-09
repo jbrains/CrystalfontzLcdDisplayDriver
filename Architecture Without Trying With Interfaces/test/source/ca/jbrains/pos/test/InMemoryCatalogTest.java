@@ -38,10 +38,20 @@ public class InMemoryCatalogTest {
 		});
 		Assert.assertEquals(Price.lira(795), catalog.findPrice("12345"));
 	}
-	
+
 	@Test
 	public void notFoundBarcode() throws Exception {
 		Catalog catalog = InMemoryCatalog.with(Collections.EMPTY_MAP);
 		Assert.assertNull(catalog.findPrice("12345"));
+	}
+
+	@Test
+	public void findPriceThrowsException() throws Exception {
+		Catalog catalog = InMemoryCatalog.with(null);
+		try {
+			catalog.findPrice("irrelevant barcode");
+			fail("You didn't blow up?!");
+		} catch (RuntimeException expected) {
+		}
 	}
 }
