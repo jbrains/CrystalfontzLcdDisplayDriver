@@ -11,12 +11,6 @@ public class RingUpSaleTest extends MockObjectTestCase {
 	private Display display;
 	private Sale sale;
 
-	public static class Price {
-		public static Price lira(int lira) {
-			return new Price();
-		}
-	}
-
 	public static class Sale {
 		private final Catalog catalog;
 		private final Display display;

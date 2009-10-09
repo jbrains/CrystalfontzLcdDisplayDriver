@@ -58,7 +58,6 @@ public class LearnSocketsTest {
 						String line = clientReader.readLine();
 						if (line == null || "stop".equals(line))
 							break;
-						System.out.println(line);
 						clientReceivedData.println(line);
 					}
 				} catch (IOException e) {
