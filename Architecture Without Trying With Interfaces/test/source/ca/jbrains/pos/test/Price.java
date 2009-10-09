@@ -32,4 +32,8 @@ public class Price {
 	public String toString() {
 		return "a Price with " + lira + " lira";
 	}
+
+	public int getLira() {
+		return lira;
+	}
 }

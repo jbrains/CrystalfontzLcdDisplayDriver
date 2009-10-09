@@ -9,7 +9,6 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
 

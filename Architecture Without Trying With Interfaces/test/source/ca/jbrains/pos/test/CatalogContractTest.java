@@ -5,7 +5,6 @@ import static org.junit.Assert.fail;
 import org.junit.Assert;
 import org.junit.Test;
 
-import ca.jbrains.pos.test.RingUpSaleTest.Catalog;
 
 public abstract class CatalogContractTest {
 	protected abstract Catalog createCatalogWith(final String barcode,

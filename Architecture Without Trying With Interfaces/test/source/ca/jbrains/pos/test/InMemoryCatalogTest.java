@@ -6,7 +6,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 
-import ca.jbrains.pos.test.RingUpSaleTest.Catalog;
 
 public class InMemoryCatalogTest extends CatalogContractTest {
 	public static class InMemoryCatalog implements Catalog {

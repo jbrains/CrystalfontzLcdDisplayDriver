@@ -11,41 +11,6 @@ public class RingUpSaleTest extends MockObjectTestCase {
 	private Display display;
 	private Sale sale;
 
-	public static class Sale {
-		private final Catalog catalog;
-		private final Display display;
-
-		public Sale(Catalog catalog, Display display) {
-			this.catalog = catalog;
-			this.display = display;
-		}
-
-		public void onBarcode(String barcode) {
-			try {
-				Price price = catalog.findPrice(barcode);
-				if (price == null)
-					display.displayNoPriceMessage(barcode);
-				else
-					display.displayPrice(price);
-			} catch (RuntimeException rethrown) {
-				display.displayGeneralErrorMessage();
-				throw rethrown;
-			}
-		}
-	}
-
-	public interface Catalog {
-		Price findPrice(String barcode);
-	}
-
-	public interface Display {
-		void displayPrice(Price price);
-
-		void displayNoPriceMessage(String barcode);
-		
-		void displayGeneralErrorMessage();
-	}
-
 	@Override
 	protected void setUp() throws Exception {
 		mockCatalog = mock(Catalog.class);
@@ -97,14 +62,15 @@ public class RingUpSaleTest extends MockObjectTestCase {
 		mockCatalog.stubs().method("findPrice").with(ANYTHING).will(
 				throwException(thrown));
 
-		mockDisplay.expects(once()).method("displayGeneralErrorMessage").withNoArguments();
-		
+		mockDisplay.expects(once()).method("displayGeneralErrorMessage")
+				.withNoArguments();
+
 		try {
 			sale.onBarcode("irrelevant barcode");
 			fail("You didn't rethrow the exception?!");
 		} catch (RuntimeException expected) {
 			assertSame(thrown, expected);
 		}
-		
+
 	}
 }
