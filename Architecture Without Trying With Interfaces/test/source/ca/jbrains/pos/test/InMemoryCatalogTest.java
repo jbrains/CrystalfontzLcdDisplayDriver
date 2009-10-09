@@ -1,17 +1,14 @@
 package ca.jbrains.pos.test;
 
-import static org.junit.Assert.*;
 
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.junit.Assert;
-import org.junit.Test;
 
 import ca.jbrains.pos.test.RingUpSaleTest.Catalog;
 
-public class InMemoryCatalogTest {
+public class InMemoryCatalogTest extends CatalogContractTest {
 	public static class InMemoryCatalog implements Catalog {
 		private final Map<String, Price> pricesByBarcode;
 
@@ -29,29 +26,22 @@ public class InMemoryCatalogTest {
 		}
 	}
 
-	@Test
-	public void foundBarcode() throws Exception {
-		Catalog catalog = InMemoryCatalog.with(new HashMap<String, Price>() {
+	@Override
+	protected Catalog createCatalogWith(final String barcode, final Price price) {
+		return InMemoryCatalog.with(new HashMap<String, Price>() {
 			{
-				put("12345", Price.lira(795));
+				put(barcode, price);
 			}
 		});
-		Assert.assertEquals(Price.lira(795), catalog.findPrice("12345"));
 	}
 
-	@Test
-	public void notFoundBarcode() throws Exception {
-		Catalog catalog = InMemoryCatalog.with(Collections.EMPTY_MAP);
-		Assert.assertNull(catalog.findPrice("12345"));
+	@Override
+	protected Catalog createCatalogWithout(String barcode) {
+		return InMemoryCatalog.with(Collections.EMPTY_MAP);
 	}
 
-	@Test
-	public void findPriceThrowsException() throws Exception {
-		Catalog catalog = InMemoryCatalog.with(null);
-		try {
-			catalog.findPrice("irrelevant barcode");
-			fail("You didn't blow up?!");
-		} catch (RuntimeException expected) {
-		}
+	@Override
+	protected Catalog createCrashTestDummyCatalog() {
+		return InMemoryCatalog.with(null);
 	}
 }
