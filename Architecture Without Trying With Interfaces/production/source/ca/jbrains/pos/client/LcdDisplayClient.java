@@ -4,14 +4,14 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
 
-import ca.jbrains.pos.test.LcdDisplay;
+import ca.jbrains.pos.test.TextDisplay;
 import ca.jbrains.pos.test.Price;
 import ca.jbrains.pos.test.Sale;
 import ca.jbrains.pos.test.InMemoryCatalogTest.InMemoryCatalog;
 
 public class LcdDisplayClient {
 	private Socket client;
-	private PrintWriter clientWriter;
+	public PrintWriter clientWriter;
 
 	public LcdDisplayClient() {
 		try {
@@ -25,7 +25,7 @@ public class LcdDisplayClient {
 
 	public void display(String text) {
 		try {
-			clientWriter.print(text + "\r\n");
+			clientWriter.print(text + System.getProperty("line.separator"));
 			clientWriter.flush();
 		} catch (Exception wrapped) {
 			throw new RuntimeException("Could not display text", wrapped);
@@ -45,9 +45,8 @@ public class LcdDisplayClient {
 			{
 				put("12345", Price.lira(100));
 			}
-		}), new LcdDisplay());
+		}), new TextDisplay(new LcdDisplayClient().clientWriter));
 		sale.onBarcode("12345");
 		sale.onBarcode("23456");
-		sale.onBarcode(null);
 	}
 }

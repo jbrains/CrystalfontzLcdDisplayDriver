@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -25,7 +26,7 @@ public class LearnSocketsTest {
 	public void clientServerPair() throws Exception {
 		serverSocket = new ServerSocket(8888, 5, InetAddress.getLocalHost());
 
-		StringWriter clientReceivedCanvas = new StringWriter();
+		Writer clientReceivedCanvas = new StringWriter();
 		final PrintWriter clientReceivedData = new PrintWriter(
 				clientReceivedCanvas, true);
 		
@@ -70,6 +71,6 @@ public class LearnSocketsTest {
 
 		serverSpeaks.join();
 		clientListens.join();
-		Assert.assertEquals("762\n", clientReceivedCanvas.toString());
+		Assert.assertEquals("762" + System.getProperty("line.separator"), clientReceivedCanvas.toString());
 	}
 }
