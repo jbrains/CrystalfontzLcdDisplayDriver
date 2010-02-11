@@ -1,8 +1,12 @@
 package ca.jbrains.pos.client;
 
+import java.io.BufferedReader;
+import java.io.Console;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.HashMap;
+import java.util.Scanner;
 
 import ca.jbrains.pos.test.TextDisplay;
 import ca.jbrains.pos.test.Price;
@@ -41,12 +45,22 @@ public class LcdDisplayClient {
 	}
 
 	public static void main(String... args) throws Exception {
-		Sale sale = new Sale(InMemoryCatalog.with(new HashMap<String, Price>() {
-			{
-				put("12345", Price.lira(100));
-			}
-		}), new TextDisplay(new LcdDisplayClient().clientWriter));
-		sale.onBarcode("12345");
-		sale.onBarcode("23456");
+		while (true) {
+			LcdDisplayClient lcdDisplayClient = new LcdDisplayClient();
+			PrintWriter clientWriter = lcdDisplayClient.clientWriter;
+			Sale sale = new Sale(InMemoryCatalog
+					.with(new HashMap<String, Price>() {
+						{
+							put("078787987173", Price.lira(100));
+							put("043100631309", Price.lira(200));
+							put("5449000108425", Price.lira(300));
+						}
+					}), new TextDisplay(clientWriter));
+
+			Scanner scanner = new Scanner(System.in);
+			String input = scanner.nextLine();
+			sale.onBarcode(input);
+			lcdDisplayClient.close();
+		}
 	}
 }
