@@ -1,21 +1,45 @@
 require "serialport"
 require "socket"
 
+module Crystalfontz
+  module USB
+    module LCD
+      class Display
+        def self.open(&block)
+          yield self.new(SerialPort.open("/dev/tty.usbserial-CF006760", 19200))
+        end
+
+        def initialize(serial_port)
+          @serial_port = serial_port
+        end
+
+        def clear_display
+          write_to_display(" " * (4 * 20))
+        end
+
+        def write_to_display(text)
+          [17, 0, 0].each { |each| @serial_port.putc each }
+          @serial_port.write(text)
+        end
+
+        def print_message(message)
+          text = message.to_s
+          clear_display
+          write_to_display(text)
+        end
+      end
+    end
+  end
+end
+
 def open_udp_server(port)
   server = UDPSocket.new
   server.bind("localhost", port)
   server
 end
 
-def write_text_to_serial_port(text, serial_port)
-  [17, 0, 0].each { |each| serial_port.putc each }
-  serial_port.write " " * 80
-  [17, 0, 0].each { |each| serial_port.putc each }
-  serial_port.write(text)
-end
-
 def run_server(options)
-  SerialPort.open("/dev/tty.usbserial-CF006760", 19200) do |serial_port|
+  Crystalfontz::USB::LCD::Display.open() do | display |
     udp_port = options[:port].to_i
     lcd_display_server = open_udp_server(udp_port)
     puts "Started UDP server on port #{udp_port}"
@@ -24,7 +48,7 @@ def run_server(options)
       puts "Accepted client #{sender.inspect}"
       puts "Received text #{text}"
       puts "Writing text..."
-      write_text_to_serial_port(text, serial_port)
+      display.print_message(text)
       puts "Wrote text"
       puts "-----"
     end
