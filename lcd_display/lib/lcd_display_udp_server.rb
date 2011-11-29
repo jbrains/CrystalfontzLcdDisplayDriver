@@ -1,9 +1,9 @@
 require "serialport"
 require "socket"
 
-def open_server
+def open_udp_server(port)
   server = UDPSocket.new
-  server.bind(nil, 5358)
+  server.bind(nil, port)
   server
 end
 
@@ -15,9 +15,9 @@ def write_text_to_serial_port(text, serial_port)
 end
 
 SerialPort.open("/dev/tty.usbserial-CF006760", 19200) do |serial_port|
-  lcd_display_server = open_server()
-  server_type = "UDP server"
-  puts "Started #{server_type}"
+  udp_port = 5358
+  lcd_display_server = open_udp_server(udp_port)
+  puts "Started UDP server on port #{udp_port}"
   loop do
     text, sender = lcd_display_server.recvfrom(1024)
     puts "Accepted client #{sender.inspect}"
