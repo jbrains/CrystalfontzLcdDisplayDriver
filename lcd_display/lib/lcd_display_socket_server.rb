@@ -1,8 +1,12 @@
 require "socket"
 require 'serialport'
 
+def open_server
+  TCPServer.open(5357)
+end
+
 SerialPort.open("/dev/tty.usbserial-CF006760", 19200) do |serial_port|
-  lcd_display_server = TCPServer.open(5357)
+  lcd_display_server = open_server()
   puts "Started TCP server"
   loop do
     Thread.start(lcd_display_server.accept) do |client|
