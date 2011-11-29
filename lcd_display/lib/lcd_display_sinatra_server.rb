@@ -1,6 +1,6 @@
 require "rubygems"
 require "sinatra"
-require "./crystalfontz"
+require File.join(File.expand_path(File.dirname(__FILE__)), "crystalfontz")
 
 set :environment, :development
 enable :logging
@@ -25,26 +25,11 @@ class LcdDisplayServer < Sinatra::Base
       <body>
         <form action="/display" method="post">
           <label for="text" accesskey="m">Message</label>
-          <input type="textarea" name="text" rows="4" cols="20" />
+          <textarea name="text" maxlength="80" rows="4" cols="20"></textarea>
           <input type="submit" />
         </form>
       </body>
     </html>
 HTML
   end
-
-  get '/message/:text' do
-    puts params[:text]
-    text = params[:text]
-    begin
-      Crystalfontz::USB::LCD::Display.open() do | display |
-        display.print_message(text)
-      end
-      return "Displayed!"
-    rescue
-      return $!
-    end
-  end
 end
-
-LcdDisplayServer.run!

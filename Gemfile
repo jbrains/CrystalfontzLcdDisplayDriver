@@ -5,4 +5,6 @@ source "http://gemcutter.org"
 gem "serialport"
 gem "sinatra"
 gem "rspec"
+gem "shotgun"
+
 
