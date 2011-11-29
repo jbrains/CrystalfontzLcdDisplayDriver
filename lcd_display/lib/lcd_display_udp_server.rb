@@ -9,7 +9,8 @@ end
 
 SerialPort.open("/dev/tty.usbserial-CF006760", 19200) do |serial_port|
   lcd_display_server = open_server()
-  puts "Started UDP server"
+  server_type = "UDP server"
+  puts "Started #{server_type}"
   loop do
     text, sender = lcd_display_server.recvfrom(1024)
     puts "Accepted client #{sender.inspect}"
