@@ -1,28 +1,26 @@
 GEM
-  remote: http://gems.github.com/
-  remote: http://gems.rubyforge.org/
-  remote: http://gemcutter.org/
+  remote: https://rubygems.org/
   specs:
-    diff-lcs (1.1.3)
-    rack (1.3.4)
-    rack-protection (1.1.4)
+    diff-lcs (1.2.4)
+    rack (1.5.2)
+    rack-protection (1.5.0)
       rack
-    rspec (2.7.0)
-      rspec-core (~> 2.7.0)
-      rspec-expectations (~> 2.7.0)
-      rspec-mocks (~> 2.7.0)
-    rspec-core (2.7.1)
-    rspec-expectations (2.7.0)
-      diff-lcs (~> 1.1.2)
-    rspec-mocks (2.7.0)
-    serialport (1.0.4)
+    rspec (2.13.0)
+      rspec-core (~> 2.13.0)
+      rspec-expectations (~> 2.13.0)
+      rspec-mocks (~> 2.13.0)
+    rspec-core (2.13.1)
+    rspec-expectations (2.13.0)
+      diff-lcs (>= 1.1.3, < 2.0)
+    rspec-mocks (2.13.1)
+    serialport (1.1.0)
     shotgun (0.9)
       rack (>= 1.0)
-    sinatra (1.3.1)
-      rack (~> 1.3, >= 1.3.4)
-      rack-protection (~> 1.1, >= 1.1.2)
-      tilt (~> 1.3, >= 1.3.3)
-    tilt (1.3.3)
+    sinatra (1.4.3)
+      rack (~> 1.4)
+      rack-protection (~> 1.4)
+      tilt (~> 1.3, >= 1.3.4)
+    tilt (1.4.1)
 
 PLATFORMS
   ruby

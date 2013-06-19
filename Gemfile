@@ -1,6 +1,4 @@
-source "http://gems.github.com"
-source "http://gems.rubyforge.org"
-source "http://gemcutter.org"
+source "https://rubygems.org"
 
 gem "serialport"
 gem "sinatra"
