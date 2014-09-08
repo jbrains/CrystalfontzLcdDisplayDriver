@@ -24,5 +24,5 @@ def run_server(options)
   end
 end
 
-run_server(:port => ARGV[0].to_i || 5358)
+run_server(:port => (ARGV[0] || 5358).to_i)
 
