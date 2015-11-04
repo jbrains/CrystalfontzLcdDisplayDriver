@@ -24,5 +24,12 @@ def run_server(options)
   end
 end
 
-run_server(:port => (ARGV[0] || 5358).to_i)
+begin
+  run_server(:port => (ARGV[0] || 5358).to_i)
+rescue Errno::ENOENT => logged
+  puts "Is the display plugged in...? Well, plug it in."
+  puts
+  puts logged.inspect
+  puts logged.backtrace
+end
 
