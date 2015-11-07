@@ -3,7 +3,7 @@ require "./crystalfontz"
 
 def open_udp_server(port)
   server = UDPSocket.new
-  server.bind("localhost", port)
+  server.bind("0.0.0.0", port)
   server
 end
 
@@ -32,4 +32,3 @@ rescue Errno::ENOENT => logged
   puts logged.inspect
   puts logged.backtrace
 end
-
