@@ -19,12 +19,13 @@ module Crystalfontz
         end
 
         def write_to_display(text)
-          [17, 0, 0].each { |each| @serial_port.putc each }
           @serial_port.write(text)
         end
 
         def print_message(message)
-          text = message.to_s
+          # We avoid sending a CR so that the cursor
+          # ends up in a more sensible-looking place.
+          text = message.to_s.chomp
           clear_display
           write_to_display(text)
         end
