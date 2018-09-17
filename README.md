@@ -18,7 +18,7 @@ This is a really simple Ruby driver for connecting to a USB-based Crystalfontz L
 >
 >   (Reference: <http://www.club.cc.cmu.edu/~mdille3/doc/mac_osx_serial_console.html>)
 
-1. For a quick test, install the `serialport` gem (running `bundle` on this project will do that for you), open `irb`, then try to connect to serial port `tty.usbserial-CF006760` at 19200 baud. If you can write *anything* to that port, then this little display "driver" will probably work.
+1. For a quick test, install the `serialport` gem (running `bundle install` on this project will do that for you), open `irb`, then try to connect to serial port `tty.usbserial-CF006760` at 19200 baud. If you can write *anything* to that port, then this little display "driver" will probably work.
 2. Go into the directory `lcd_display/lib` to run the display servers. I haven't yet bothered to remove the need for this step. You'll find both a UDP-based driver and a Sinatra app. Use whichever fits you better.
 
 ## UDP Server
