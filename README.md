@@ -2,6 +2,10 @@
 
 This is a really simple Ruby driver for connecting to a USB-based Crystalfontz LCD. I use this for my training course Agile Design: Beyond the Basics. It probably has no other value, but if you can use it, then feel free.
 
+## Update 2020
+
+I no longer own this LCD, so I have no idea whether this code is still helpful. If you have a Crystalfontz device and this code helps you, then **please tell me which device you have**. Did you have to change the code? How? I might want to buy a new LCD and that information could be handy. Thanks.
+
 # How do I use this?
 
 1. Plug in your LCD display. I have the (now discontinued) Crystalfontz CFA634-NFA-KU.
