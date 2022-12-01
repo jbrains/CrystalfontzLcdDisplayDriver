@@ -2,6 +2,10 @@
 
 This is a really simple Ruby driver for connecting to a USB-based Crystalfontz LCD. I use this for my training course Agile Design: Beyond the Basics. It probably has no other value, but if you can use it, then feel free.
 
+## Update Ruby 3
+
+The HTTP server in this project is `shotgun`. As of December 1, 2022, `shotgun` is not guaranteed to run on Ruby 3. I have no plans to upgrade this project to run on Ruby 3.
+
 ## Update 2020
 
 I no longer own this LCD, so I have no idea whether this code is still helpful. If you have a Crystalfontz device and this code helps you, then **please tell me which device you have**. Did you have to change the code? How? I might want to buy a new LCD and that information could be handy. Thanks.
